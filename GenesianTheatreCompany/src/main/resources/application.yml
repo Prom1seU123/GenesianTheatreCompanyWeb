@@ -1,0 +1,21 @@
+server:
+  port: 8090
+
+spring:
+  datasource:
+    # 使用PostgreSQL
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 970703
+
+  mybatis-plus:
+    global-config:
+      db-config:
+        id-type: auto
+    configuration:
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.au.GenesianTheatreCompany: debug
