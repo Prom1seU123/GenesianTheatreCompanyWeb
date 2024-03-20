@@ -1,5 +1,6 @@
 package com.au.GenesianTheatreCompany.Controller;
 
+import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.entity.Admin;
 import com.au.GenesianTheatreCompany.entity.DTO.Admin1;
 import com.au.GenesianTheatreCompany.service.AdminService;
@@ -12,14 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-    @GetMapping
-    public String hello() {
-        return "hello srh";
-    }
     @Autowired
     private AdminService adminService;
     @GetMapping("/list")
-    public List<Admin> list() {
+    public Result list() {
         return adminService.listAllAdmin();
     }
 
@@ -46,8 +43,8 @@ public class AdminController {
     }
     //delete
     @GetMapping("/delete")
-    public boolean delete(Integer id) {
-        return adminService.removeById(id);
+    public boolean delete(Long aid) {
+        return adminService.removeById(aid);
     }
 
     //fuzzy search

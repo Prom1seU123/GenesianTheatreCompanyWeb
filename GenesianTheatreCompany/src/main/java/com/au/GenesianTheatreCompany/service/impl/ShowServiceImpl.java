@@ -1,5 +1,6 @@
 package com.au.GenesianTheatreCompany.service.impl;
 
+import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.entity.Show;
 import com.au.GenesianTheatreCompany.mapper.ShowMapper;
 import com.au.GenesianTheatreCompany.service.ShowService;
@@ -14,8 +15,8 @@ public class ShowServiceImpl extends ServiceImpl<ShowMapper, Show> implements Sh
     @Resource
     private ShowMapper showMapper;
     @Override
-    public List<Show> listAll() {
-        return showMapper.listAll();
+    public Result listAll() {
+        return Result.suc(showMapper.listAll());
     }
 
 }

@@ -36,5 +36,5 @@ public class Show {
     private String cover;
     @TableField("stills")
     private String stills;
-    private LocalDate eventDate;
+
 }

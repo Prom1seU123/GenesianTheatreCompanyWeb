@@ -1,5 +1,6 @@
 package com.au.GenesianTheatreCompany.mapper;
 
+import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.entity.Admin;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

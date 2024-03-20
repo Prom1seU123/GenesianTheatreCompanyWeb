@@ -1,5 +1,6 @@
 package com.au.GenesianTheatreCompany.service.impl;
 
+import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.entity.Admin;
 import com.au.GenesianTheatreCompany.mapper.AdminMapper;
 import com.au.GenesianTheatreCompany.service.AdminService;
@@ -14,8 +15,8 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Resource
     private AdminMapper adminMapper;
     @Override
-    public List<Admin> listAllAdmin() {
-        return adminMapper.listAll();
+    public Result listAllAdmin() {
+        return Result.suc(adminMapper.listAll());
     }
 
     @Override
