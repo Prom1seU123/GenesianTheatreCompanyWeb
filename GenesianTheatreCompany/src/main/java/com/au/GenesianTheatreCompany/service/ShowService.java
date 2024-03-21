@@ -10,4 +10,8 @@ import java.util.List;
 @Service
 public interface ShowService extends IService<Show> {
     Result listAll();
+
+    Result findShowsByStartYear(int year);
+
+    Result findAllDistinctYears();
 }

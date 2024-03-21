@@ -21,10 +21,10 @@ public class AdminController {
     }
 
     //add
-    @PostMapping("/save")
-    public boolean save(@RequestBody Admin1 admin1) {
-        return adminService.saveAdmin(admin1.getUsername(), admin1.getPwd());
-    }
+//    @PostMapping("/save")
+//    public boolean save(@RequestBody Admin1 admin1) {
+//        return adminService.saveAdmin(admin1.getUsername(), admin1.getPwd());
+//    }
     @PostMapping("/save1")
     public boolean save1(@RequestBody Admin admin) {
         return adminService.save(admin);
@@ -51,7 +51,7 @@ public class AdminController {
     @PostMapping("/fSearch")
     public List<Admin> fSearch(@RequestBody Admin admin) {
         LambdaQueryWrapper<Admin> lambdaQueryWrapper = new LambdaQueryWrapper();
-        lambdaQueryWrapper.like(Admin::getUsername, admin.getUsername());
+        lambdaQueryWrapper.apply("LOWER(username) LIKE LOWER({0})", "%" + admin.getUsername() + "%");
         return adminService.list(lambdaQueryWrapper);
     }
 

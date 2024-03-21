@@ -9,4 +9,8 @@ import java.util.List;
 @Mapper
 public interface ShowMapper extends BaseMapper<Show> {
     List<Show> listAll();
+
+    List<Show> findShowsByStartYear(int year);
+
+    List<Integer> findAllDistinctYears();
 }

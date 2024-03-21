@@ -19,4 +19,14 @@ public class ShowServiceImpl extends ServiceImpl<ShowMapper, Show> implements Sh
         return Result.suc(showMapper.listAll());
     }
 
+    @Override
+    public Result findShowsByStartYear(int year) {
+        return Result.suc(showMapper.findShowsByStartYear(year));
+    }
+
+    @Override
+    public Result findAllDistinctYears() {
+        return Result.suc(showMapper.findAllDistinctYears());
+    }
+
 }

@@ -44,7 +44,8 @@ public class ShowController {
     @PostMapping("/fSearch")
     public List<Show> fSearch(@RequestBody Show show) {
         LambdaQueryWrapper<Show> lambdaQueryWrapper = new LambdaQueryWrapper();
-        lambdaQueryWrapper.like(Show::getPname, show.getPname());
+//        lambdaQueryWrapper.like(Show::getPname, show.getPname());
+        lambdaQueryWrapper.apply("LOWER(pname) LIKE LOWER({0})", "%" + show.getPname() + "%");
         return showService.list(lambdaQueryWrapper);
     }
 
@@ -55,5 +56,16 @@ public class ShowController {
         lambdaQueryWrapper.eq(Show::getPname, show.getPname());
         return showService.list(lambdaQueryWrapper);
     }
+
+    @GetMapping("/previousShow")
+    public Result findAllDistinctYears() {
+        return showService.findAllDistinctYears();
+    }
+
+    @GetMapping("/previousShow/{year}")
+    public Result findShowsByYear(@PathVariable("year") int year) {
+        return showService.findShowsByStartYear(year);
+    }
+
 
 }
