@@ -41,13 +41,21 @@ public class ShowController {
     }
 
     //fuzzy search
-    @PostMapping("/fSearch")
-    public List<Show> fSearch(@RequestBody Show show) {
+    @GetMapping("/fSearch")
+    public List<Show> fSearch(String kw) {
         LambdaQueryWrapper<Show> lambdaQueryWrapper = new LambdaQueryWrapper();
-//        lambdaQueryWrapper.like(Show::getPname, show.getPname());
-        lambdaQueryWrapper.apply("LOWER(pname) LIKE LOWER({0})", "%" + show.getPname() + "%");
+        lambdaQueryWrapper.apply("LOWER(pname) LIKE LOWER({0})", "%" + kw + "%")
+                .or()
+                .apply("LOWER(subtitle) LIKE LOWER({0})", "%" + kw + "%")
+                .or()
+                .apply("LOWER(productions) LIKE LOWER({0})", "%" + kw + "%")
+                .or()
+                .apply("LOWER(casts) LIKE LOWER({0})", "%" + kw + "%")
+                .or()
+                .apply("LOWER(crews) LIKE LOWER({0})", "%" + kw + "%");
         return showService.list(lambdaQueryWrapper);
     }
+
 
     //precise search
     @PostMapping("/pSearch")
