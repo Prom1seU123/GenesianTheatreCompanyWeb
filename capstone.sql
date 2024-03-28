@@ -4,12 +4,17 @@ DROP TABLE IF EXISTS Shows;
 CREATE TABLE Admins (
     aid INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     username VARCHAR(255),
-    pwd VARCHAR(255)
+    pwd VARCHAR(255),
+	firstname VARCHAR(255),
+    lastname VARCHAR(255),
+	email VARCHAR(255),
+	roles VARCHAR(255) CHECK (roles IN ('Administrator', 'Marketing', 'Manager', 'Member'))
 );
-INSERT INTO Admins (username, pwd) VALUES 
-('admin', 'admin'),
-('root', 'root'),
-('srh', 'srh');
+INSERT INTO Admins (username, pwd, firstname, lastname, email, roles) VALUES 
+('admin', 'admin','admin', 'a','no emial', 'Administrator'),
+('root', 'root','Marketing','M','no email', 'Marketing'),
+('srh', 'srh', 'rh', 's','srh@usyd.com','Member');
+
 
 CREATE TABLE Shows (
     pid INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -26,10 +31,10 @@ CREATE TABLE Shows (
 );
 
 COPY Shows(pname, subtitle, startdate, enddate, productions, casts, crews, contents, cover, stills)
-FROM 'capston/2024.csv' -- Your path
+FROM '/Users/zeqianliu/Desktop/capston/2024.csv' -- Your path
 DELIMITER ','
 CSV HEADER;
-SELECT * FROM shows; 
+SELECT * FROM Admins; 
 
 
 
