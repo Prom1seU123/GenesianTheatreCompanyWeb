@@ -1,16 +1,14 @@
 package com.au.GenesianTheatreCompany.service;
 
 import com.au.GenesianTheatreCompany.Common.Result;
-import com.au.GenesianTheatreCompany.entity.Admin;
+import com.au.GenesianTheatreCompany.entity.Users;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public interface AdminService extends IService<Admin> {
+public interface UserService extends IService<Users> {
 
-    Result listAllAdmin();
+    Result listAllUser();
 
-    boolean saveAdmin(String username, String password);
+    boolean saveUser(String username, String password);
 }
