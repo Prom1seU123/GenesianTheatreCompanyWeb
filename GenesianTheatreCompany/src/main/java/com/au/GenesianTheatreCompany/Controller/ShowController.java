@@ -42,7 +42,7 @@ public class ShowController {
 
     //fuzzy search
     @GetMapping("/fSearch")
-    public List<Show> fSearch(String kw) {
+    public Result fSearch(String kw) {
         LambdaQueryWrapper<Show> lambdaQueryWrapper = new LambdaQueryWrapper();
         lambdaQueryWrapper.apply("LOWER(pname) LIKE LOWER({0})", "%" + kw + "%")
                 .or()
@@ -53,7 +53,7 @@ public class ShowController {
                 .apply("LOWER(casts) LIKE LOWER({0})", "%" + kw + "%")
                 .or()
                 .apply("LOWER(crews) LIKE LOWER({0})", "%" + kw + "%");
-        return showService.list(lambdaQueryWrapper);
+        return Result.suc(showService.list(lambdaQueryWrapper));
     }
 
 
