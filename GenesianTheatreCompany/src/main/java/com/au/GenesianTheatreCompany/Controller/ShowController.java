@@ -1,6 +1,7 @@
 package com.au.GenesianTheatreCompany.Controller;
 
 import com.au.GenesianTheatreCompany.Common.Result;
+import com.au.GenesianTheatreCompany.entity.DTO.ShowSearchResult;
 import com.au.GenesianTheatreCompany.entity.Show;
 import com.au.GenesianTheatreCompany.service.ShowService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/show")
@@ -53,7 +55,11 @@ public class ShowController {
                 .apply("LOWER(casts) LIKE LOWER({0})", "%" + kw + "%")
                 .or()
                 .apply("LOWER(crews) LIKE LOWER({0})", "%" + kw + "%");
-        return Result.suc(showService.list(lambdaQueryWrapper));
+        List<Show> shows = showService.list(lambdaQueryWrapper);
+        List<ShowSearchResult> showDTOs = shows.stream()
+                .map(show -> new ShowSearchResult(show.getPid(), show.getPname(), show.getSubtitle(), show.getStartdate()))
+                .collect(Collectors.toList());
+        return Result.suc(showDTOs);
     }
 
 
@@ -71,8 +77,13 @@ public class ShowController {
     }
 
     @GetMapping("/previousShow/{year}")
-    public Result findShowsByYear(@PathVariable("year") int year) {
+    public Result findShowsByStartYear(@PathVariable("year") int year) {
         return showService.findShowsByStartYear(year);
+    }
+
+    @GetMapping("/detail/{pid}")
+    public Result findShowDetailByPid(@PathVariable("pid") Long pid) {
+        return showService.findShowDetailByPid(pid);
     }
 
 

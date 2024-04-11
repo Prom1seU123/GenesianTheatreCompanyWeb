@@ -8,8 +8,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ShowServiceImpl extends ServiceImpl<ShowMapper, Show> implements ShowService {
     @Resource
@@ -27,6 +25,11 @@ public class ShowServiceImpl extends ServiceImpl<ShowMapper, Show> implements Sh
     @Override
     public Result findAllDistinctYears() {
         return Result.suc(showMapper.findAllDistinctYears());
+    }
+
+    @Override
+    public Result findShowDetailByPid(Long pid) {
+        return Result.suc(showMapper.findShowDetailByPid(pid));
     }
 
 }
