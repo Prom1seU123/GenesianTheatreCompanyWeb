@@ -25,7 +25,6 @@ public class ShowController {
         return showService.save(show);
     }
 
-
     //modify
     @PostMapping("/mod")
     public boolean mod(@RequestBody Show show) {
@@ -44,23 +43,52 @@ public class ShowController {
 
     //fuzzy search
     @GetMapping("/fSearch")
-    public Result fSearch(String kw) {
-        LambdaQueryWrapper<Show> lambdaQueryWrapper = new LambdaQueryWrapper();
-        lambdaQueryWrapper.apply("LOWER(pname) LIKE LOWER({0})", "%" + kw + "%")
-                .or()
-                .apply("LOWER(subtitle) LIKE LOWER({0})", "%" + kw + "%")
-                .or()
-                .apply("LOWER(productions) LIKE LOWER({0})", "%" + kw + "%")
-                .or()
-                .apply("LOWER(casts) LIKE LOWER({0})", "%" + kw + "%")
-                .or()
-                .apply("LOWER(crews) LIKE LOWER({0})", "%" + kw + "%");
+    public Result fSearch(@RequestParam(required = false) String kw, @RequestParam(required = false) Integer year) {
+        LambdaQueryWrapper<Show> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+
+        boolean hasKeyword = kw != null && !kw.trim().isEmpty();
+        boolean hasYear = year != null;
+
+        // Start constructing the query only if at least one condition is present
+        if (hasKeyword || hasYear) {
+            lambdaQueryWrapper.and(wrapper -> {
+                // Initialize a condition block
+                if (hasKeyword) {
+                    // Keyword conditions are added first
+                    wrapper.nested(i -> i
+                            .apply("LOWER(pname) LIKE LOWER({0})", "%" + kw.trim() + "%")
+                            .or()
+                            .apply("LOWER(subtitle) LIKE LOWER({0})", "%" + kw.trim() + "%")
+                            .or()
+                            .apply("LOWER(productions) LIKE LOWER({0})", "%" + kw.trim() + "%")
+                            .or()
+                            .apply("LOWER(casts) LIKE LOWER({0})", "%" + kw.trim() + "%")
+                            .or()
+                            .apply("LOWER(crews) LIKE LOWER({0})", "%" + kw.trim() + "%")
+                    );
+                }
+
+                // Add the year condition within the same AND clause
+                if (hasYear) {
+                    if (hasKeyword) {
+                        // Add AND only if keyword was added
+                        wrapper.and(i -> i.apply("EXTRACT(YEAR FROM startdate) = {0}", year));
+                    } else {
+                        // Directly apply the year condition if no keyword condition was added
+                        wrapper.apply("EXTRACT(YEAR FROM startdate) = {0}", year);
+                    }
+                }
+            });
+        }
+
+        // Execute the query and process the results
         List<Show> shows = showService.list(lambdaQueryWrapper);
-        List<ShowSearchResult> showDTOs = shows.stream()
+        List<ShowSearchResult> showSearchResults = shows.stream()
                 .map(show -> new ShowSearchResult(show.getPid(), show.getPname(), show.getSubtitle(), show.getStartdate()))
                 .collect(Collectors.toList());
-        return Result.suc(showDTOs);
+        return Result.suc(showSearchResults);
     }
+
 
 
     //precise search
