@@ -5,8 +5,6 @@ import com.au.GenesianTheatreCompany.entity.Show;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public interface ShowService extends IService<Show> {
     Result listAll();
@@ -14,4 +12,6 @@ public interface ShowService extends IService<Show> {
     Result findShowsByStartYear(int year);
 
     Result findAllDistinctYears();
+
+    Result findShowDetailByPid(Long pid);
 }
