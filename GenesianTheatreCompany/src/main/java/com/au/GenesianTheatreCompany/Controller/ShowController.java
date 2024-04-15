@@ -49,35 +49,33 @@ public class ShowController {
         boolean hasKeyword = kw != null && !kw.trim().isEmpty();
         boolean hasYear = year != null;
 
-        // Begin constructing the query only if at least one condition is present
+        // Start constructing the query only if at least one condition is present
         if (hasKeyword || hasYear) {
             lambdaQueryWrapper.and(wrapper -> {
-                boolean addedCondition = false; // Track if any condition has been added
-
-                // Add keyword conditions
+                // Initialize a condition block
                 if (hasKeyword) {
-                    String keywordCondition = "%" + kw.trim() + "%";
-                    wrapper.apply("LOWER(pname) LIKE LOWER({0})", keywordCondition)
+                    // Keyword conditions are added first
+                    wrapper.nested(i -> i
+                            .apply("LOWER(pname) LIKE LOWER({0})", "%" + kw.trim() + "%")
                             .or()
-                            .apply("LOWER(subtitle) LIKE LOWER({0})", keywordCondition)
+                            .apply("LOWER(subtitle) LIKE LOWER({0})", "%" + kw.trim() + "%")
                             .or()
-                            .apply("LOWER(productions) LIKE LOWER({0})", keywordCondition)
+                            .apply("LOWER(productions) LIKE LOWER({0})", "%" + kw.trim() + "%")
                             .or()
-                            .apply("LOWER(casts) LIKE LOWER({0})", keywordCondition)
+                            .apply("LOWER(casts) LIKE LOWER({0})", "%" + kw.trim() + "%")
                             .or()
-                            .apply("LOWER(crews) LIKE LOWER({0})", keywordCondition);
-                    addedCondition = true;
+                            .apply("LOWER(crews) LIKE LOWER({0})", "%" + kw.trim() + "%")
+                    );
                 }
 
-                // Add year condition
+                // Add the year condition within the same AND clause
                 if (hasYear) {
-                    String yearCondition = "EXTRACT(YEAR FROM startdate) = " + year;
-                    if (addedCondition) {
-                        // If any keyword condition has been added, use AND to combine with the year condition
-                        wrapper.and(i -> i.apply(yearCondition));
+                    if (hasKeyword) {
+                        // Add AND only if keyword was added
+                        wrapper.and(i -> i.apply("EXTRACT(YEAR FROM startdate) = {0}", year));
                     } else {
-                        // If no keyword condition has been added, directly apply the year condition
-                        wrapper.apply(yearCondition);
+                        // Directly apply the year condition if no keyword condition was added
+                        wrapper.apply("EXTRACT(YEAR FROM startdate) = {0}", year);
                     }
                 }
             });
@@ -85,11 +83,12 @@ public class ShowController {
 
         // Execute the query and process the results
         List<Show> shows = showService.list(lambdaQueryWrapper);
-        List<ShowSearchResult> showSearchResult = shows.stream()
+        List<ShowSearchResult> showSearchResults = shows.stream()
                 .map(show -> new ShowSearchResult(show.getPid(), show.getPname(), show.getSubtitle(), show.getStartdate()))
                 .collect(Collectors.toList());
-        return Result.suc(showSearchResult);
+        return Result.suc(showSearchResults);
     }
+
 
 
     //precise search
