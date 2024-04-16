@@ -4,6 +4,7 @@ import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.entity.Users;
 import com.au.GenesianTheatreCompany.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,5 +61,13 @@ public class UserController {
         LambdaQueryWrapper<Users> lambdaQueryWrapper = new LambdaQueryWrapper();
         lambdaQueryWrapper.eq(Users::getUsername, users.getUsername());
         return userService.list(lambdaQueryWrapper);
+    }
+    @PostMapping("/login")
+    public Result login(@RequestBody Users users) {
+
+        List list = userService.lambdaQuery()
+                .eq(Users::getEmail, users.getEmail())
+                .eq(Users::getPwd, users.getPwd()).list();
+        return list.size() > 0 ? Result.suc(list.get(0)):Result.fail();
     }
 }
