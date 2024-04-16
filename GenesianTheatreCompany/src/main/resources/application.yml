@@ -6,8 +6,8 @@ spring:
     # 使用PostgreSQL
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 970703
+    username: zeqianliu
+    password: 12345678
 
   mybatis-plus:
     global-config:
@@ -16,6 +16,21 @@ spring:
     configuration:
       log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: genesian42@outlook.com
+    password: Genesian@group42
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  admin:
+    email: genesian42@outlook.com
+
 logging:
   level:
     com.au.GenesianTheatreCompany: debug
+
