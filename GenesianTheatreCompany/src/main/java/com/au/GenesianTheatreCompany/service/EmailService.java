@@ -1,6 +1,8 @@
 package com.au.GenesianTheatreCompany.service;
 
+import com.au.GenesianTheatreCompany.Common.Result;
+
 public interface EmailService {
-    void sendEmail(String email, String subject, String content);
+    Result sendEmail(String email, String subject, String content);
 }
 

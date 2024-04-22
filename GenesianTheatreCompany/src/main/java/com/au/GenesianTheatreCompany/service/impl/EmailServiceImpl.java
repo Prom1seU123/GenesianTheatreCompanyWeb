@@ -1,5 +1,6 @@
 package com.au.GenesianTheatreCompany.service.impl;
 
+import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Value("${spring.admin.email}")
     private String adminEmail;
-    public void sendEmail(String email, String subject, String content) {
+    public Result sendEmail(String email, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(adminEmail);
         message.setTo(adminEmail);
@@ -28,5 +29,6 @@ public class EmailServiceImpl implements EmailService {
             System.err.println("Mail send failed: " + ex.getMessage());
             ex.printStackTrace();
         }
+        return Result.suc("Email sent successfully");
     }
 }
