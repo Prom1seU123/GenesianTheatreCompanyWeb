@@ -9,4 +9,13 @@
         INSERT INTO users (username, pwd)
         VALUES (#{username}, #{pwd});
     </insert>
+
+    <select id="checkUidIsValid" resultType="java.lang.Boolean">
+        SELECT EXISTS(SELECT 1 FROM users WHERE uid = #{uid})
+    </select>
+
+    <select id="getEmailByUid" resultType="java.lang.String">
+        SELECT email FROM users WHERE uid = #{uid};
+    </select>
+
 </mapper>

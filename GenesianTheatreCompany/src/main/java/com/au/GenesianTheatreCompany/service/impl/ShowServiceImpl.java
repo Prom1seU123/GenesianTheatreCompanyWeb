@@ -31,5 +31,8 @@ public class ShowServiceImpl extends ServiceImpl<ShowMapper, Show> implements Sh
     public Result findShowDetailByPid(Long pid) {
         return Result.suc(showMapper.findShowDetailByPid(pid));
     }
-
+    @Override
+    public String getPnameByPid(Long pid) {
+        return showMapper.getPnameByPid(pid);
+    }
 }

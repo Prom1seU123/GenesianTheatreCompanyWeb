@@ -21,5 +21,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, Users> implements U
     public boolean saveUser(String username, String password) {
         return userMapper.saveUser(username, password);
     }
-
+    @Override
+    public boolean checkUidIsValid(Long uid) {return userMapper.checkUidIsValid(uid);};
+    @Override
+    public String getEmailByUid(Long uid) {return userMapper.getEmailByUid(uid);};
 }

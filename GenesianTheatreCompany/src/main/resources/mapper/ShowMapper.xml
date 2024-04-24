@@ -17,4 +17,8 @@
         SELECT * FROM shows
         WHERE pid = #{pid}
     </select>
+    <select id="getPnameByPid" resultType="java.lang.String">
+        SELECT pname FROM shows
+        WHERE pid = #{pid}
+    </select>
 </mapper>

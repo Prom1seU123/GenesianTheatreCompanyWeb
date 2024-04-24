@@ -3,7 +3,10 @@ package com.au.GenesianTheatreCompany.Controller;
 import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.entity.DTO.ShowSearchResult;
 import com.au.GenesianTheatreCompany.entity.Show;
+import com.au.GenesianTheatreCompany.entity.Users;
+import com.au.GenesianTheatreCompany.service.LoggingService;
 import com.au.GenesianTheatreCompany.service.ShowService;
+import com.au.GenesianTheatreCompany.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,28 +19,48 @@ import java.util.stream.Collectors;
 public class ShowController {
     @Autowired
     private ShowService showService;
+    @Autowired
+    private LoggingService loggingService;
+    @Autowired
+    private UserService userService;
     @GetMapping("/list")
     public Result list() {
         return showService.listAll();
     }
     @PostMapping("/save")
-    public boolean save(@RequestBody Show show) {
+    public boolean save(@RequestBody Show show, @RequestParam Long uid) {
+        String logMessage = String.format("%s adds the new production: %s",
+                userService.getEmailByUid(uid),
+                show.getPname());
+        loggingService.writeLog(logMessage);
         return showService.save(show);
     }
 
     //modify
     @PostMapping("/mod")
-    public boolean mod(@RequestBody Show show) {
+    public boolean mod(@RequestBody Show show, @RequestParam Long uid) {
+        String logMessage = String.format("%s updates the production: %s",
+                userService.getEmailByUid(uid),
+                show.getPname());
+        loggingService.writeLog(logMessage);
         return showService.updateById(show);
     }
     //add or modify
     @PostMapping("/saveOrMod")
-    public boolean saveOrMod(@RequestBody Show show) {
+    public boolean saveOrMod(@RequestBody Show show, @RequestParam Long uid) {
+        String logMessage = String.format("%s saves or modifies the production: %s",
+                userService.getEmailByUid(uid),
+                show.getPname());
+        loggingService.writeLog(logMessage);
         return showService.saveOrUpdate(show);
     }
     //delete
     @GetMapping("/delete")
-    public boolean delete(Long pid) {
+    public boolean delete(@RequestParam Long pid, @RequestParam Long uid) {
+        String logMessage = String.format("%s deletes the production: %s",
+                userService.getEmailByUid(uid),
+                showService.getPnameByPid(pid));
+        loggingService.writeLog(logMessage);
         return showService.removeById(pid);
     }
 

@@ -13,5 +13,6 @@ public interface UserMapper extends BaseMapper<Users> {
     List<Users> listAll();
 
     boolean saveUser(@Param("username")String username, @Param("pwd")String pwd);
-
+    boolean checkUidIsValid(@Param("uid")Long uid);
+    String getEmailByUid(@Param("uid")Long uid);
 }

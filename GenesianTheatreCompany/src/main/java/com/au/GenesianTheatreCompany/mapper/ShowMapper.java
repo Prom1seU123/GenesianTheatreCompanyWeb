@@ -16,4 +16,6 @@ public interface ShowMapper extends BaseMapper<Show> {
     List<Integer> findAllDistinctYears();
 
     Show findShowDetailByPid(@Param("pid")Long pid);
+
+    String getPnameByPid(@Param("pid")Long pid);
 }

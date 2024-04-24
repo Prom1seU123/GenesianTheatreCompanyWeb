@@ -6,8 +6,8 @@ spring:
     # 使用PostgreSQL
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/postgres
-    username: zeqianliu
-    password: 12345678
+    username: postgres
+    password: 970703
 
   mybatis-plus:
     global-config:
