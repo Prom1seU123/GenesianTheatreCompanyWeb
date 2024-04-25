@@ -11,4 +11,6 @@ public interface UserService extends IService<Users> {
     Result listAllUser();
 
     boolean saveUser(String username, String password);
+    boolean checkUidIsValid(Long uid);
+    String getEmailByUid(Long uid);
 }

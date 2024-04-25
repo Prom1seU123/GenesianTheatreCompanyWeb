@@ -14,4 +14,5 @@ public interface ShowService extends IService<Show> {
     Result findAllDistinctYears();
 
     Result findShowDetailByPid(Long pid);
+    String getPnameByPid(Long pid);
 }

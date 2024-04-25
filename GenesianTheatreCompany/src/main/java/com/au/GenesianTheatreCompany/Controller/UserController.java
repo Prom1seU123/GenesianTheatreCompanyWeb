@@ -2,9 +2,9 @@ package com.au.GenesianTheatreCompany.Controller;
 
 import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.entity.Users;
+import com.au.GenesianTheatreCompany.service.LoggingService;
 import com.au.GenesianTheatreCompany.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,36 +15,49 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private LoggingService loggingService;
     @GetMapping("/list")
     public Result list() {
         return userService.listAllUser();
     }
 
-    //add
-//    @PostMapping("/save")
-//    public boolean save(@RequestBody Admin1 admin1) {
-//        return adminService.saveAdmin(admin1.getUsername(), admin1.getPwd());
-//    }
-    @PostMapping("/save1")
-    public boolean save1(@RequestBody Users users) {
+    @PostMapping("/save")
+    public boolean save(@RequestBody Users users, @RequestParam Long uid) {
+        String logMessage = String.format("%s adds the user: %s",
+                userService.getEmailByUid(uid),
+                users.getEmail());
+        loggingService.writeLog(logMessage);
         return userService.save(users);
     }
 
 
     //modify
     @PostMapping("/mod")
-    public boolean mod(@RequestBody Users users) {
+    public boolean mod(@RequestBody Users users, @RequestParam Long uid) {
+        String logMessage = String.format("%s modifies the user: %s",
+                userService.getEmailByUid(uid),
+                users.getEmail());
+        loggingService.writeLog(logMessage);
         return userService.updateById(users);
     }
     //add or modify
     @PostMapping("/saveOrMod")
-    public boolean saveOrMod(@RequestBody Users users) {
+    public boolean saveOrMod(@RequestBody Users users, @RequestParam Long uid) {
+        String logMessage = String.format("%s saves or modifies the user: %s",
+                userService.getEmailByUid(uid),
+                users.getEmail());
+        loggingService.writeLog(logMessage);
         return userService.saveOrUpdate(users);
     }
     //delete
     @GetMapping("/delete")
-    public boolean delete(Long aid) {
-        return userService.removeById(aid);
+    public boolean delete(Long uid, @RequestParam Long adminUid) {
+        String logMessage = String.format("%s deletes the user: %s",
+                userService.getEmailByUid(adminUid),
+                userService.getEmailByUid(uid));
+        loggingService.writeLog(logMessage);
+        return userService.removeById(uid);
     }
 
     //fuzzy search
@@ -68,6 +81,8 @@ public class UserController {
         List list = userService.lambdaQuery()
                 .eq(Users::getEmail, users.getEmail())
                 .eq(Users::getPwd, users.getPwd()).list();
+        String logMessage = String.format("%s logs in", users.getEmail());
+        loggingService.writeLog(logMessage);
         return list.size() > 0 ? Result.suc(list.get(0)):Result.fail();
     }
 }
