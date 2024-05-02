@@ -3,7 +3,6 @@ package com.au.GenesianTheatreCompany.Controller;
 import com.au.GenesianTheatreCompany.Common.Result;
 import com.au.GenesianTheatreCompany.entity.DTO.ShowSearchResult;
 import com.au.GenesianTheatreCompany.entity.Show;
-import com.au.GenesianTheatreCompany.entity.Users;
 import com.au.GenesianTheatreCompany.service.LoggingService;
 import com.au.GenesianTheatreCompany.service.ShowService;
 import com.au.GenesianTheatreCompany.service.UserService;
@@ -71,7 +70,6 @@ public class ShowController {
 
         boolean hasKeyword = kw != null && !kw.trim().isEmpty();
         boolean hasYear = year != null;
-
         // Start constructing the query only if at least one condition is present
         if (hasKeyword || hasYear) {
             lambdaQueryWrapper.and(wrapper -> {
@@ -90,7 +88,6 @@ public class ShowController {
                             .apply("LOWER(crews) LIKE LOWER({0})", "%" + kw.trim() + "%")
                     );
                 }
-
                 // Add the year condition within the same AND clause
                 if (hasYear) {
                     if (hasKeyword) {
