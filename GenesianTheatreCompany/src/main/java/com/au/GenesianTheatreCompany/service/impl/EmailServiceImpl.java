@@ -22,7 +22,7 @@ public class EmailServiceImpl implements EmailService {
         message.setFrom(adminEmail);
         message.setTo(adminEmail);
         message.setSubject(subject);
-        message.setText(email+"\n"+content);
+        message.setText("My contact: "+email+"\n"+content);
         try {
             mailSender.send(message);
         } catch (MailException ex) {
