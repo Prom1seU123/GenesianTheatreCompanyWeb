@@ -78,6 +78,14 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version> <!-- 确保使用支持 Java 17 的版本 -->
+				<configuration>
+					<release>17</release> <!-- 指定 Java 17 -->
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
