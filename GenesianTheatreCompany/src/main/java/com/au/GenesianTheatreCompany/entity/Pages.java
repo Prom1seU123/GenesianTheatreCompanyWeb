@@ -12,6 +12,8 @@ public class Pages {
     @TableId(value = "pgid", type = IdType.INPUT)
     @TableField("pgid")
     private Long pgid;
+    @TableField("pgname")
+    private String pgname;
     @TableField("title")
     private String title;
     @TableField("contents")
