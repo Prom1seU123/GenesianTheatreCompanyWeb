@@ -32,24 +32,24 @@ public class UserController {
     }
 
 
-    //modify
-    @PostMapping("/mod")
-    public boolean mod(@RequestBody Users users, @RequestParam Long uid) {
-        String logMessage = String.format("%s modifies the user: %s",
-                userService.getEmailByUid(uid),
-                users.getEmail());
-        loggingService.writeLog(logMessage);
-        return userService.updateById(users);
-    }
-    //add or modify
-    @PostMapping("/saveOrMod")
-    public boolean saveOrMod(@RequestBody Users users, @RequestParam Long uid) {
-        String logMessage = String.format("%s saves or modifies the user: %s",
-                userService.getEmailByUid(uid),
-                users.getEmail());
-        loggingService.writeLog(logMessage);
-        return userService.saveOrUpdate(users);
-    }
+//    //modify
+//    @PostMapping("/mod")
+//    public boolean mod(@RequestBody Users users, @RequestParam Long uid) {
+//        String logMessage = String.format("%s modifies the user: %s",
+//                userService.getEmailByUid(uid),
+//                users.getEmail());
+//        loggingService.writeLog(logMessage);
+//        return userService.updateById(users);
+//    }
+//    //add or modify
+//    @PostMapping("/saveOrMod")
+//    public boolean saveOrMod(@RequestBody Users users, @RequestParam Long uid) {
+//        String logMessage = String.format("%s saves or modifies the user: %s",
+//                userService.getEmailByUid(uid),
+//                users.getEmail());
+//        loggingService.writeLog(logMessage);
+//        return userService.saveOrUpdate(users);
+//    }
     //delete
     @GetMapping("/delete")
     public boolean delete(Long uid, @RequestParam Long adminUid) {
@@ -60,21 +60,21 @@ public class UserController {
         return userService.removeById(uid);
     }
 
-    //fuzzy search
-    @PostMapping("/fSearch")
-    public List<Users> fSearch(@RequestBody Users users) {
-        LambdaQueryWrapper<Users> lambdaQueryWrapper = new LambdaQueryWrapper();
-        lambdaQueryWrapper.apply("LOWER(username) LIKE LOWER({0})", "%" + users.getUsername() + "%");
-        return userService.list(lambdaQueryWrapper);
-    }
-
-    //precise search
-    @PostMapping("/pSearch")
-    public List<Users> pSearch(@RequestBody Users users) {
-        LambdaQueryWrapper<Users> lambdaQueryWrapper = new LambdaQueryWrapper();
-        lambdaQueryWrapper.eq(Users::getUsername, users.getUsername());
-        return userService.list(lambdaQueryWrapper);
-    }
+//    //fuzzy search
+//    @PostMapping("/fSearch")
+//    public List<Users> fSearch(@RequestBody Users users) {
+//        LambdaQueryWrapper<Users> lambdaQueryWrapper = new LambdaQueryWrapper();
+//        lambdaQueryWrapper.apply("LOWER(username) LIKE LOWER({0})", "%" + users.getUsername() + "%");
+//        return userService.list(lambdaQueryWrapper);
+//    }
+//
+//    //precise search
+//    @PostMapping("/pSearch")
+//    public List<Users> pSearch(@RequestBody Users users) {
+//        LambdaQueryWrapper<Users> lambdaQueryWrapper = new LambdaQueryWrapper();
+//        lambdaQueryWrapper.eq(Users::getUsername, users.getUsername());
+//        return userService.list(lambdaQueryWrapper);
+//    }
     @PostMapping("/login")
     public Result login(@RequestBody Users users) {
 
