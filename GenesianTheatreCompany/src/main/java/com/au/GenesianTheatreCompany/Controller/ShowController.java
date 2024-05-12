@@ -44,15 +44,15 @@ public class ShowController {
         loggingService.writeLog(logMessage);
         return showService.updateById(show);
     }
-    //add or modify
-    @PostMapping("/saveOrMod")
-    public boolean saveOrMod(@RequestBody Show show, @RequestParam Long uid) {
-        String logMessage = String.format("%s saves or modifies the production: %s",
-                userService.getEmailByUid(uid),
-                show.getPname());
-        loggingService.writeLog(logMessage);
-        return showService.saveOrUpdate(show);
-    }
+//    //add or modify
+//    @PostMapping("/saveOrMod")
+//    public boolean saveOrMod(@RequestBody Show show, @RequestParam Long uid) {
+//        String logMessage = String.format("%s saves or modifies the production: %s",
+//                userService.getEmailByUid(uid),
+//                show.getPname());
+//        loggingService.writeLog(logMessage);
+//        return showService.saveOrUpdate(show);
+//    }
     //delete
     @GetMapping("/delete")
     public boolean delete(@RequestParam Long pid, @RequestParam Long uid) {
@@ -109,8 +109,6 @@ public class ShowController {
         return Result.suc(showSearchResults);
     }
 
-
-
     //precise search
     @PostMapping("/pSearch")
     public List<Show> pSearch(@RequestBody Show show) {
@@ -133,6 +131,5 @@ public class ShowController {
     public Result findShowDetailByPid(@PathVariable("pid") Long pid) {
         return showService.findShowDetailByPid(pid);
     }
-
 
 }
