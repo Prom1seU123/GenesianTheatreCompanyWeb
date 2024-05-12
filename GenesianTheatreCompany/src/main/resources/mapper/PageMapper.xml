@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.au.GenesianTheatreCompany.mapper.PageMapper">
     <select id="listAll" resultType="com.au.GenesianTheatreCompany.entity.Pages">
-            select * from pages;
+            select * from pages order by pgid;
     </select>
 
     <select id="getPageById" resultType="com.au.GenesianTheatreCompany.entity.Pages">
