@@ -1,6 +1,7 @@
 package com.au.GenesianTheatreCompany.Controller;
 
 import com.au.GenesianTheatreCompany.Common.Result;
+import com.au.GenesianTheatreCompany.entity.DTO.Page;
 import com.au.GenesianTheatreCompany.entity.Pages;
 import com.au.GenesianTheatreCompany.entity.Users;
 import com.au.GenesianTheatreCompany.service.LoggingService;
@@ -34,12 +35,14 @@ public class PageController {
 
     //modify
     @PostMapping("/mod")
-    public Result mod(@RequestBody Pages pages, @RequestParam Long adminUid) {
-        String logMessage = String.format("%s modifies the page id: %s",
+    public Result mod(@RequestBody Pages page, @RequestParam Long adminUid) {
+        Pages pageResult = pageService.getById(page.getPgid());
+        String logMessage = String.format("%s modifies the page: %s/%s",
                 userService.getEmailByUid(adminUid),
-                pages.getPgid());
+                pageResult.getPgname(),
+                pageResult.getTitle());
         loggingService.writeLog(logMessage);
-        return Result.suc(pageService.updateById(pages));
+        return Result.suc(pageService.updateById(pageResult));
     }
 
 }
