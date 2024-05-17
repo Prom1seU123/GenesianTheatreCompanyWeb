@@ -8,6 +8,7 @@ public class Result {
     private String msg; // return message
     private Long total;  // total number
     private Object data; // data
+    private boolean success;
 
     public static Result fail(){
         return result(400, "fail", 0L, null);
@@ -37,5 +38,9 @@ public class Result {
         res.setTotal(total);
         return res;
 
+    }
+
+    public boolean isSuccess() {
+        return success;
     }
 }
