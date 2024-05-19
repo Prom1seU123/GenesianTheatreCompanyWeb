@@ -34,10 +34,12 @@ CREATE TABLE Shows (
     stills TEXT
 );
 
-COPY Shows(pname, subtitle, startdate, enddate, productions, casts, crews, contents, cover, stills)
-FROM '/Users/zeqianliu/Desktop/capston/datas.csv' -- Your path
-DELIMITER ','
-CSV HEADER;
+-- COPY Shows(pname, subtitle, startdate, enddate, productions, casts, crews, contents, cover, stills)
+-- FROM './datas.csv' -- Your path
+-- DELIMITER ','
+-- CSV HEADER;
+\copy Shows(pname, subtitle, startdate, enddate, productions, casts, crews, contents, cover, stills) FROM './datas.csv' WITH (FORMAT csv, HEADER true);
+
 
 CREATE TABLE Reviews (
     rid INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -79,5 +81,5 @@ Background to the move', 'https://picsum.photos/1024/480/?image=10'),
 
 
 
-SELECT pgid,pgname,title FROM Pages; 
+-- SELECT * FROM Shows; 
 
