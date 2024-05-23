@@ -42,7 +42,7 @@ public class PageController {
                 pageResult.getPgname(),
                 pageResult.getTitle());
         loggingService.writeLog(logMessage);
-        return Result.suc(pageService.updateById(pageResult));
+        return Result.suc(pageService.updateById(page));
     }
 
 }
